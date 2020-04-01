@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { fetchNannyById } from 'actions'
+
+import NannyInfo from 'components/nanny/NannyInfo'
 
 class NannyDetail extends Component {
   componentDidMount() {
@@ -13,7 +13,11 @@ class NannyDetail extends Component {
   }
 
   render() {
-    const { nanny } = this.props
+    const { nanny, isFetching } = this.props
+
+    if (isFetching) {
+      return null
+    }
 
     return (
       <section id="nannyDetails">
@@ -31,32 +35,7 @@ class NannyDetail extends Component {
         <div className="details-section">
           <div className="row">
             <div className="col-md-8">
-              <div className="nanny">
-                <h1 className="nanny-title">{nanny.name}</h1>
-                <h2 className="nanny-city">
-                  {nanny.city}, {nanny.state}
-                </h2>
-                <div className="nanny-room-info">
-                  <span>${nanny.hourlyRate} per Hour</span>
-                </div>
-                <p className="nanny-description">{nanny.description}</p>
-                <hr />
-                <div className="nanny-assets">
-                  <h3 className="title">Features</h3>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <span>
-                        <FontAwesomeIcon icon="baby-carriage" /> Some feature
-                      </span>
-                    </div>
-                    <div className="col-md-6">
-                      <span>
-                        <FontAwesomeIcon icon="baby" /> Some feature
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <NannyInfo nanny={nanny} />
             </div>
             <div className="col-md-4"> BOOKING</div>
           </div>
@@ -66,7 +45,10 @@ class NannyDetail extends Component {
   }
 }
 
-const mapStateToProps = ({ nanny }) => ({ nanny })
+const mapStateToProps = ({ nanny }) => ({
+  nanny: nanny.item,
+  isFetching: nanny.isFetching,
+})
 
 const NannyDetailWithRouter = withRouter(NannyDetail)
 export default connect(mapStateToProps)(NannyDetailWithRouter)

@@ -6,7 +6,8 @@ const nannies = [
     state: 'FL',
     zip: '34110',
     phone: '1234567890',
-    image: 'http://via.placeholder.com/350x250',
+    image:
+      'https://mommybites.com/newyork/files/2018/05/100316794_s-768x512.jpg',
     email: 'beckybabysitter@gmail.com',
     headline: 'My name says it all!',
     description:
@@ -21,7 +22,7 @@ const nannies = [
     state: 'FL',
     zip: '34109',
     phone: '0987654321',
-    image: 'http://via.placeholder.com/350x250',
+    image: 'https://engage.dss.gov.au/wp-content/uploads/2015/07/nannies.jpg',
     email: 'audreyaupair@gmail.com',
     headline: 'Many years with the finest families',
     description:
@@ -37,7 +38,8 @@ const nannies = [
     state: 'FL',
     zip: '34110',
     phone: '5555555555',
-    image: 'http://via.placeholder.com/350x250',
+    image:
+      'https://www.educatednannies.com/wp-content/uploads/2018/04/Educated-Nannies-job-photo-14.jpg',
     email: 'nancynanny@gmail.com',
     headline: 'Nannying is what I do.',
     description:

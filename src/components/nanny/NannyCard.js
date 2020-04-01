@@ -8,7 +8,7 @@ const NannyCard = props => {
       <div className="card rpn-card">
         <img className="card-img-top" src={nanny.image} alt={nanny.name} />
         <div className="card-body">
-          <h6 className="card-subtitle mb-0 text-muted">{nanny.description}</h6>
+          <h6 className="card-subtitle mb-0 text-muted">{nanny.headline}</h6>
           <h5 className="card-title big-font">{nanny.name}</h5>
           <p className="card-text">${nanny.hourlyRate}/Hour</p>
         </div>
