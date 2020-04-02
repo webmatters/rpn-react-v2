@@ -11,7 +11,7 @@ export class NannyHome extends Component {
 
   renderNannies = nannies =>
     nannies.map(nanny => (
-      <div className="col-md-3" key={nanny.id}>
+      <div className="col-md-3" key={nanny._id}>
         <NannyCard nanny={nanny} />
       </div>
     ))
