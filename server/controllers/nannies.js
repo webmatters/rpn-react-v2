@@ -3,10 +3,7 @@ const Nanny = require('../models/nanny')
 exports.getNannies = (req, res) => {
   Nanny.find({}, (error, foundNannies) => {
     if (error) {
-      return Nanny.sendError(res, {
-        status: 422,
-        detail: 'There was a problem retrieving list of nannies.',
-      })
+      return res.mongoError(error)
     }
     return res.json(foundNannies)
   })
@@ -17,10 +14,7 @@ exports.getNannyById = (req, res) => {
 
   Nanny.findById(id, (error, foundNanny) => {
     if (error) {
-      return Nanny.sendError(res, {
-        status: 422,
-        detail: 'There was a problem retrieving data for that nanny.',
-      })
+      return res.mongoError(error)
     }
     return res.json(foundNanny)
   })
@@ -31,10 +25,7 @@ exports.createNanny = (req, res) => {
 
   Nanny.create(nannyData, (error, createdNanny) => {
     if (error) {
-      return Nanny.sendError(res, {
-        status: 422,
-        detail: 'There was a problem creating a new nanny.',
-      })
+      return res.mongoError(error)
     }
 
     return res.json({

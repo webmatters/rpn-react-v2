@@ -1,4 +1,15 @@
-const nannies = [
+exports.users = [
+  {
+    email: 'test@gmail.com',
+    password: 'testtest',
+  },
+  {
+    email: 'test2@gmail.com',
+    password: 'testtest2',
+  },
+]
+
+exports.nannies = [
   {
     name: 'Becky Babysitter',
     city: 'Boca Raton',
@@ -48,5 +59,3 @@ const nannies = [
     milesRadius: 15,
   },
 ]
-
-module.exports = nannies

@@ -1,13 +1,16 @@
-const nannies = require('./data/nannies')
+const { users, nannies } = require('./data')
 const Nanny = require('../models/nanny')
+const User = require('../models/user')
 
 class FakeDB {
-  clean() {
-    return Nanny.deleteMany({})
+  async clean() {
+    await Nanny.deleteMany({})
+    await User.deleteMany({})
   }
 
-  addData() {
-    return Nanny.create(nannies)
+  async addData() {
+    await Nanny.create(nannies)
+    await User.create(users)
   }
 
   async populate() {
