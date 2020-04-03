@@ -1,23 +1,35 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+
 import RegisterForm from 'components/forms/RegisterForm'
+import ApiErrors from 'components/forms/ApiErrors'
+import { registerUser } from 'actions'
 
 export class Register extends Component {
-  registerUser = registerData => {
-    alert(JSON.stringify(registerData))
+  state = { shouldRedirect: false, errors: [] }
+
+  signUp = registerData => {
+    registerUser(registerData)
+      .then(() => {
+        this.setState({ shouldRedirect: true })
+      })
+      .catch(errors => this.setState({ errors }))
   }
 
   render() {
+    const { shouldRedirect, errors } = this.state
+
+    if (shouldRedirect) {
+      return <Redirect to={{ pathname: '/login' }} />
+    }
+
     return (
       <div className="rpn-form">
         <div className="row">
           <div className="col-md-5">
             <h1 className="page-title">Register</h1>
-            <RegisterForm onSubmit={this.registerUser} />
-            {/* <div className="alert alert-danger">
-        <p>
-          Some Error
-        </p>
-      </div> */}
+            <RegisterForm onSubmit={this.signUp} />
+            <ApiErrors errors={errors} />
           </div>
           <div className="col-md-6 ml-auto">
             <div className="image-container">

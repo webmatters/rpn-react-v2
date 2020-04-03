@@ -1,12 +1,33 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+
 import LoginForm from 'components/forms/LoginForm'
+import ApiErrors from 'components/forms/ApiErrors'
+
+import { loginUser } from 'actions'
 
 export class Login extends Component {
-  loginUser = loginData => {
-    alert(JSON.stringify(loginData))
+  state = {
+    shouldRedirect: false,
+    errors: [],
+  }
+
+  signIn = loginData => {
+    loginUser(loginData)
+      .then(token => {
+        console.log(token)
+        this.setState({ shouldRedirect: true })
+      })
+      .catch(errors => this.setState({ errors }))
   }
 
   render() {
+    const { errors, shouldRedirect } = this.state
+
+    if (shouldRedirect) {
+      return <Redirect to={{ pathname: '/' }} />
+    }
+
     return (
       <div className="rpn-form">
         <div className="row">
@@ -15,12 +36,8 @@ export class Login extends Component {
             {/* <!-- <div className="alert alert-success">
         Some message
       </div> --> */}
-            <LoginForm onSubmit={this.loginUser} />
-            {/* <div className="alert alert-danger">
-        <p>
-          Some Error
-        </p>
-      </div> --> */}
+            <LoginForm onSubmit={this.signIn} />
+            <ApiErrors errors={errors} />
           </div>
           <div className="col-md-6 ml-auto">
             <div className="image-container">
