@@ -20,7 +20,14 @@ export class Register extends Component {
     const { shouldRedirect, errors } = this.state
 
     if (shouldRedirect) {
-      return <Redirect to={{ pathname: '/login' }} />
+      return (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { message: 'Registration Successful! You can now log in.' },
+          }}
+        />
+      )
     }
 
     return (
