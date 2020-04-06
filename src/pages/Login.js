@@ -3,8 +3,7 @@ import { Redirect } from 'react-router-dom'
 
 import LoginForm from 'components/forms/LoginForm'
 import ApiErrors from 'components/forms/ApiErrors'
-
-import { loginUser } from 'actions'
+import { withAuth } from 'providers/AuthProvider'
 
 export class Login extends Component {
   state = {
@@ -13,7 +12,8 @@ export class Login extends Component {
   }
 
   signIn = loginData => {
-    loginUser(loginData)
+    this.props.auth
+      .signIn(loginData)
       .then(token => {
         console.log(token)
         this.setState({ shouldRedirect: true })
@@ -53,4 +53,4 @@ export class Login extends Component {
   }
 }
 
-export default Login
+export default withAuth(Login)
