@@ -3,22 +3,13 @@ import { combineReducers } from 'redux'
 const initAuthReducer = () => {
   const isAuth = (state = false, action) => {
     switch (action.type) {
-      case 'IS_FETCHING_NANNY':
-        return {}
-      case 'FETCH_NANNY_BY_ID':
-        return action.nanny
-
       default:
         return state
     }
   }
 
-  const firstName = (state = false, action) => {
+  const firstName = (state = '', action) => {
     switch (action.type) {
-      case 'IS_FETCHING_NANNY':
-        return true
-      case 'FETCH_NANNY_BY_ID':
-        return false
       default:
         return state
     }
@@ -29,6 +20,6 @@ const initAuthReducer = () => {
   })
 }
 
-const nanny = initAuthReducer()
+const auth = initAuthReducer()
 
-export default nanny
+export default auth

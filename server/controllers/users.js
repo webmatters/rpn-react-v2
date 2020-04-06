@@ -28,7 +28,7 @@ exports.login = (req, res) => {
       const token = jwt.sign(
         {
           sub: foundUser.id,
-          username: foundUser.username,
+          firstName: foundUser.firstName,
         },
         JWT_SECRET,
         { expiresIn: '2h' }
@@ -44,12 +44,25 @@ exports.login = (req, res) => {
 }
 
 exports.register = (req, res) => {
-  const { username, email, password, passwordConfirmation } = req.body
+  const {
+    email,
+    firstName,
+    lastName,
+    password,
+    passwordConfirmation,
+  } = req.body
 
   if (!password || !email) {
     return res.sendApiError({
       title: 'Missing Data',
       detail: 'Email or Password is missing',
+    })
+  }
+
+  if (!firstName || !lastName) {
+    return res.sendApiError({
+      title: 'Missing Data',
+      detail: 'First and Last Name are required.',
     })
   }
 
@@ -72,7 +85,7 @@ exports.register = (req, res) => {
       })
     }
 
-    const user = new User({ username, email, password })
+    const user = new User({ email, firstName, lastName, password })
     user.save(error => {
       if (error) {
         return res.mongoError(error)

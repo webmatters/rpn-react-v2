@@ -1,10 +1,14 @@
 exports.users = [
   {
     email: 'test@gmail.com',
+    firstName: 'Testy',
+    lastName: 'Tester',
     password: 'testtest',
   },
   {
     email: 'test2@gmail.com',
+    firstName: 'Two',
+    lastName: 'Testing',
     password: 'testtest2',
   },
 ]

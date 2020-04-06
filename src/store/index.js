@@ -3,11 +3,13 @@ import thunk from 'redux-thunk'
 
 import nannies from './reducers/nannies'
 import nanny from './reducers/nanny'
+import auth from './reducers/auth'
 
 export function initStore() {
   const reducers = combineReducers({
     nannies,
     nanny,
+    auth,
   })
 
   const composeEnhancers =

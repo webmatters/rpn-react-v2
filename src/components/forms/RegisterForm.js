@@ -38,6 +38,46 @@ const RegisterForm = ({ onSubmit }) => {
       </div>
 
       <div className="form-group">
+        <label htmlFor="firstName">First Name</label>
+        <input
+          ref={register({
+            required: 'First name is required',
+            minLength: {
+              value: 2,
+              message: 'First name must be at least 2 characters.',
+            },
+          })}
+          type="text"
+          className="form-control"
+          id="firstName"
+          name="firstName"
+        />
+        <FormError errors={errors} name="firstName">
+          {message => <p>{message}</p>}
+        </FormError>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="lastName">Last Name</label>
+        <input
+          ref={register({
+            required: 'Last name is required',
+            minLength: {
+              value: 2,
+              message: 'Last name must be at least 2 characters.',
+            },
+          })}
+          type="text"
+          className="form-control"
+          id="lastName"
+          name="lastName"
+        />
+        <FormError errors={errors} name="firstName">
+          {message => <p>{message}</p>}
+        </FormError>
+      </div>
+
+      <div className="form-group">
         <label htmlFor="password">Password</label>
         <input
           ref={register({

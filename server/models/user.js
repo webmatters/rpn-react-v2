@@ -15,6 +15,18 @@ const userSchema = new Schema({
     minlength: [4, 'Must be at least 4 characters.'],
     maxlength: [128, 'Maximum number of characters is 128.'],
   },
+  firstName: {
+    type: String,
+    required: true,
+    minlength: [2, 'Must be at least 2 characters'],
+    maxlength: [128, 'Maximum number of characters is 128.'],
+  },
+  lastName: {
+    type: String,
+    required: true,
+    minlength: [2, 'Must be at least 2 characters'],
+    maxlength: [128, 'Maximum number of characters is 128.'],
+  },
   password: {
     type: String,
     required: true,
@@ -23,11 +35,11 @@ const userSchema = new Schema({
   },
 })
 
-userSchema.methods.hasSamePassword = function(providedPassword) {
+userSchema.methods.hasSamePassword = function (providedPassword) {
   return bcrypt.compareSync(providedPassword, this.password)
 }
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
   const user = this
 
   bcrypt.genSalt(10, (err, salt) => {
