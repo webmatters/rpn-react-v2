@@ -1,5 +1,28 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## To run the project
+
+Create `dev.js` file in `server/config` with content of:
+
+```javascript
+module.exports = {
+  DB_URI: 'your_mongodb_connection_string', // Get it here: https://www.mongodb.com/cloud/atlas
+  JWT_SECRET: 'some_unique_value', // e.g.: 'ase832jvl23e'
+}
+```
+
+To start the React development server, from the root project directory, type:
+`yarn install` then `yarn start`
+OR
+`npm install` then `npm start`
+
+To start the Node API server, from the root directory, type `cd server` to navigate to the `server` directory.
+Type `node index`
+
+## To populate the database with sample data
+
+From the `server` directory, type `node fakeDB/cleanDB.js`.
+
 ## Available Scripts
 
 In the project directory, you can run:
