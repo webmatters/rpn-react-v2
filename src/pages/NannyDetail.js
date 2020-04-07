@@ -5,11 +5,23 @@ import { connect } from 'react-redux'
 import { fetchNannyById } from 'actions'
 
 import NannyInfo from 'components/nanny/NannyInfo'
+import TomMap from 'components/map/TomMap'
 
 class NannyDetail extends Component {
   componentDidMount() {
     const { id } = this.props.match.params
     this.props.dispatch(fetchNannyById(id))
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch({ type: 'UNMOUNT_NANNY' })
+  }
+
+  get location() {
+    const {
+      nanny: { address1, city, zip },
+    } = this.props
+    return address1 && city && zip && city + ', ' + address1 + ', ' + zip
   }
 
   render() {
@@ -27,7 +39,7 @@ class NannyDetail extends Component {
               <img src={nanny.image} alt={nanny.description} />
             </div>
             <div className="col-md-6">
-              <img src={nanny.image} alt={nanny.description} />
+              <TomMap location={this.location} />
             </div>
           </div>
         </div>

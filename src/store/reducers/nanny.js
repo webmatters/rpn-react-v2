@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 const initNannyReducer = () => {
   const item = (state = {}, action) => {
     switch (action.type) {
-      case 'IS_FETCHING_NANNY':
+      case 'UNMOUNT_NANNY':
         return {}
       case 'FETCH_NANNY_BY_ID':
         return action.nanny
