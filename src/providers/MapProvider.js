@@ -28,7 +28,7 @@ export const MapProvider = ({ children, apiKey }) => {
       key: apiKey,
       container: 'rpn-map',
       style: 'tomtom://vector/1/basic-main',
-      zoom: 10,
+      zoom: 8,
       scrollZoom: false,
     })
 

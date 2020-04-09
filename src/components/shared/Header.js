@@ -67,16 +67,9 @@ const Header = ({ isAuth, firstName, logout }) => {
                   Manage
                 </a>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                  <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
+                  <Link className="dropdown-item" to="/nannies/new">
+                    Create Nanny
+                  </Link>
                 </div>
               </li>
               <li className="nav-item">

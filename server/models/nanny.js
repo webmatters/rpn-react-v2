@@ -22,7 +22,6 @@ const nannySchema = new Schema({
   },
   address2: {
     type: String,
-    minlength: [3, 'Must be at least 3 characters'],
     maxlength: [128, 'Maximum number of characters is 128'],
   },
   state: {
