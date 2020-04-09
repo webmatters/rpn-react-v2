@@ -77,10 +77,11 @@ const nannySchema = new Schema({
     required: true,
     default: false,
   },
+  owner: { type: Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now },
 })
 
-nannySchema.statics.sendError = function(res, config) {
+nannySchema.statics.sendError = function (res, config) {
   const { status, detail } = config
   return res.status(status).send({
     errors: [

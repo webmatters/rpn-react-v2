@@ -6,9 +6,10 @@ const {
   getNannyById,
   createNanny,
 } = require('../controllers/nannies')
+const { onlyAuthUser } = require('../controllers/users')
 
 router.get('/', getNannies)
 router.get('/:id', getNannyById)
-router.post('/', createNanny)
+router.post('/', onlyAuthUser, createNanny)
 
 module.exports = router

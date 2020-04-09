@@ -22,14 +22,13 @@ exports.getNannyById = (req, res) => {
 
 exports.createNanny = (req, res) => {
   const nannyData = req.body
+  nannyData.owner = res.locals.user
 
   Nanny.create(nannyData, (error, createdNanny) => {
     if (error) {
       return res.mongoError(error)
     }
 
-    return res.json({
-      message: `Nanny with id: ${createdNanny._id} was added!`,
-    })
+    return res.json(createdNanny)
   })
 }
