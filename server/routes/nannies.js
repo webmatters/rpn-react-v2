@@ -6,6 +6,7 @@ const {
   getNannyById,
   createNanny,
 } = require('../controllers/nannies')
+
 const { onlyAuthUser } = require('../controllers/users')
 
 router.get('/', getNannies)

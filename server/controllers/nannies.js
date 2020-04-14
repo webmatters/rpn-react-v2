@@ -32,3 +32,25 @@ exports.createNanny = (req, res) => {
     return res.json(createdNanny)
   })
 }
+
+// middleware
+exports.isUserNanny = (req, res, next) => {
+  const { nanny } = req.body
+  const user = res.locals.user
+
+  Nanny.findById(nanny)
+    .populate('owner')
+    .exec((error, foundNanny) => {
+      if (error) {
+        return res.mongoError(error)
+      }
+
+      if (foundNanny.owner.id === user.id) {
+        return res.sendApiError({
+          title: 'Invalid User',
+          detail: 'Cannot book your own service.',
+        })
+      }
+      next()
+    })
+}

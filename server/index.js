@@ -8,12 +8,14 @@ const { provideErrorHandler } = require('./middleware')
 // Routes
 const nannyRoutes = require('./routes/nannies')
 const userRoutes = require('./routes/users')
+const bookingRoutes = require('./routes/bookings')
 
 const { onlyAuthUser } = require('./controllers/users')
 
 // Models
 require('./models/nanny')
 require('./models/user')
+require('./models/booking')
 
 const app = express()
 
@@ -42,6 +44,7 @@ app.get('/api/v1/secret', onlyAuthUser, (req, res) => {
 // API routes
 app.use('/api/v1/nannies', nannyRoutes)
 app.use('/api/v1/users', userRoutes)
+app.use('/api/v1/bookings', bookingRoutes)
 
 app.listen(PORT, () => {
   console.log('Server is listening on port: ', PORT)
