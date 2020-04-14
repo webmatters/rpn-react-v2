@@ -6,6 +6,7 @@ import { fetchNannyById } from 'actions'
 
 import NannyInfo from 'components/nanny/NannyInfo'
 import TomMap from 'components/map/TomMap'
+import BookingReserve from 'components/booking/BookingReserve'
 
 class NannyDetail extends Component {
   componentDidMount() {
@@ -49,7 +50,9 @@ class NannyDetail extends Component {
             <div className="col-md-8">
               <NannyInfo nanny={nanny} />
             </div>
-            <div className="col-md-4"> BOOKING</div>
+            <div className="col-md-4">
+              <BookingReserve />
+            </div>
           </div>
         </div>
       </section>
