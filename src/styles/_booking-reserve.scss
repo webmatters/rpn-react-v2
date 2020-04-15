@@ -53,10 +53,17 @@
 }
 
 // MODAL
-.booking-modal {
+.rpn-modal {
   .title {
+    padding-top: 18px;
+    padding-bottom: 8px;
     font-weight: 700;
-    font-size: 26px;
+    font-size: 22px;
+  }
+
+  .modal-body {
+    padding-left: 0;
+    padding-bottom: 8px;
   }
 
   .buttons {

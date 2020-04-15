@@ -28,7 +28,7 @@ class NannyDetail extends Component {
   render() {
     const { nanny, isFetching } = this.props
 
-    if (isFetching) {
+    if (isFetching || !nanny._id) {
       return null
     }
 
@@ -51,7 +51,7 @@ class NannyDetail extends Component {
               <NannyInfo nanny={nanny} />
             </div>
             <div className="col-md-4">
-              <BookingReserve />
+              <BookingReserve nanny={nanny} />
             </div>
           </div>
         </div>

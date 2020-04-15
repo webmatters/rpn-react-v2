@@ -9,6 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 
 import './index.scss'
+import 'bootstrap-daterangepicker/daterangepicker.css'
 
 import App from './App'
 
