@@ -9,3 +9,4 @@ export const extractApiErrors = resError => {
 
 export * from './nannies'
 export * from './auth'
+export * from './bookings'

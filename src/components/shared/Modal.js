@@ -31,7 +31,11 @@ const RpnModal = ({
         <div className="modal-body">{children}</div>
         <small>You will not be charged yet.</small>
         <div className="modal-footer">
-          <button onClick={onSubmit} type="button" className="btn btn-rpn-main">
+          <button
+            onClick={() => onSubmit(() => setIsOpen(false))}
+            type="button"
+            className="btn btn-rpn-main"
+          >
             Confirm
           </button>
           <button

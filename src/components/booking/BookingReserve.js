@@ -5,13 +5,16 @@ import { extendMoment } from 'moment-range'
 
 import RpnModal from 'components/shared/Modal'
 
+import { createBooking, getBookings } from 'actions'
+
 const moment = extendMoment(Moment)
 
-export class BookingReserve extends Component {
+class BookingReserve extends Component {
   constructor() {
     super()
 
     this.dateRef = React.createRef()
+    this.bookedDates = []
 
     this.state = {
       proposedBooking: {
@@ -20,6 +23,12 @@ export class BookingReserve extends Component {
         endAt: null,
       },
     }
+  }
+
+  async componentDidMount() {
+    const { nanny } = this.props
+    debugger
+    this.bookedDates = await getBookings(nanny._id)
   }
 
   handleApply = (event, { startDate, endDate }) => {
@@ -42,26 +51,40 @@ export class BookingReserve extends Component {
       proposedBooking: {
         ...this.state.proposedBooking,
         hours: this.hours,
-        totalPrice: this.totalPrice,
+        price: this.price,
+        nanny: this.props.nanny,
       },
     })
   }
 
   checkInvalidDates = date => {
-    return date < moment().subtract(1, 'days')
+    let isBooked = false
+
+    isBooked = this.bookedDates.some(booking =>
+      moment.range(booking.startAt, booking.endAt).contains(date)
+    )
+
+    return date < moment().subtract(1, 'days') || isBooked
   }
 
   handleNumKidsChange = event => {
     this.setState({
       proposedBooking: {
         ...this.state.proposedBooking,
-        numKids: event.target.value,
+        numKids: parseInt(event.target.value, 10),
       },
     })
   }
 
-  reserveNanny = () => {
-    alert(JSON.stringify(this.state.proposedBooking))
+  reserveNanny = closeCallback => {
+    createBooking(this.state.proposedBooking)
+      .then(newBooking => {
+        alert('Success!')
+        closeCallback()
+      })
+      .catch(error => {
+        alert('Error!')
+      })
   }
 
   get hours() {
@@ -73,7 +96,7 @@ export class BookingReserve extends Component {
     return Array.from(range.by('days')).length - 1
   }
 
-  get totalPrice() {
+  get price() {
     const {
       nanny: { hourlyRate },
     } = this.props
@@ -91,7 +114,7 @@ export class BookingReserve extends Component {
   render() {
     const { nanny } = this.props
     const {
-      proposedBooking: { hours, numKids, totalPrice },
+      proposedBooking: { hours, numKids, price },
     } = this.state
 
     return (
@@ -145,7 +168,7 @@ export class BookingReserve extends Component {
           <p>Hours: {hours}</p>
           <p>Hourly Rate: ${nanny.hourlyRate}</p>
           <p># of Children: {numKids}</p>
-          <p>Price: {totalPrice}</p>
+          <p>Price: {price}</p>
         </RpnModal>
 
         <hr></hr>

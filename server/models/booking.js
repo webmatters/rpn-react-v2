@@ -6,7 +6,7 @@ const bookingSchema = new Schema({
   endAt: { type: Date, required: true },
   price: { type: Number, required: true },
   hours: { type: Number, required: true },
-  children: { type: Number, required: true },
+  numKids: { type: Number, required: true },
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   nanny: { type: Schema.Types.ObjectId, ref: 'Nanny', required: true },
   createdAt: { type: Date, default: Date.now },
