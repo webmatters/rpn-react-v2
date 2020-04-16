@@ -31,7 +31,7 @@ exports.users = [
 exports.nannies = [
   {
     name: 'Becky Babysitter',
-    city: 'Boca Raton',
+    city: 'boca raton',
     address1: '123 Palm Drive',
     state: 'FL',
     zip: '34110',
@@ -48,7 +48,7 @@ exports.nannies = [
   },
   {
     name: 'Audrey Aupair',
-    city: 'Naples',
+    city: 'naples',
     address1: '7898 Willow St',
     state: 'FL',
     zip: '34109',
@@ -64,7 +64,7 @@ exports.nannies = [
   },
   {
     name: 'Nancy Nanny',
-    city: 'Boca Raton',
+    city: 'boca raton',
     address1: '234 Beach Rd.',
     address2: 'Unit 222',
     state: 'FL',

@@ -7,6 +7,7 @@ import GuestRoute from 'components/auth/GuestRoute'
 import NannyHome from './pages/NannyHome'
 import NannyDetail from './pages/NannyDetail'
 import NannyNew from './pages/NannyNew'
+import NannySearch from './pages/NannySearch'
 
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -16,6 +17,9 @@ const Routes = () => {
   return (
     <div className="container rpn-container">
       <Switch>
+        <Route path="/nannies/:location/nannies">
+          <NannySearch />
+        </Route>
         <AuthRoute path="/nannies/new">
           <NannyNew />
         </AuthRoute>

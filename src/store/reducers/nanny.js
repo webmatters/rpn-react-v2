@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { isFetchingReducer } from './common'
 
 const initNannyReducer = () => {
   const item = (state = {}, action) => {
@@ -13,16 +14,8 @@ const initNannyReducer = () => {
     }
   }
 
-  const isFetching = (state = false, action) => {
-    switch (action.type) {
-      case 'IS_FETCHING_NANNY':
-        return true
-      case 'FETCH_NANNY_BY_ID':
-        return false
-      default:
-        return state
-    }
-  }
+  const isFetching = isFetchingReducer('nanny')
+
   return combineReducers({
     item,
     isFetching,

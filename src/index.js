@@ -10,6 +10,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 import './index.scss'
 import 'bootstrap-daterangepicker/daterangepicker.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 import App from './App'
 

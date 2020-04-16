@@ -1,3 +1,5 @@
+@import './colors';
+
 .booking {
   padding: 20px;
   border: 1px solid #dedada;
@@ -79,4 +81,14 @@
   p {
     margin: 0;
   }
+}
+
+.daterangepicker td.in-range {
+  background-color: $main-app-color !important;
+  opacity: 0.3;
+}
+
+.daterangepicker td.active {
+  background-color: $main-app-color !important;
+  opacity: 1;
 }

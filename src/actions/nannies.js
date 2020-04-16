@@ -1,8 +1,11 @@
 import axiosService from 'services/AxiosService'
 const { rpnAxios } = axiosService
 
-export const fetchNannies = () => async dispatch => {
-  const res = await rpnAxios.get('/nannies')
+export const fetchNannies = location => async dispatch => {
+  const query = location ? `/nannies?city=${location}` : '/nannies'
+  dispatch({ type: 'REQUEST_DATA', resource: 'nannies' })
+  const res = await rpnAxios.get(query)
+  dispatch({ type: 'REQUEST_DATA_COMPLETE', resource: 'nannies' })
   dispatch({
     type: 'FETCH_NANNIES',
     nannies: res.data,
@@ -10,8 +13,9 @@ export const fetchNannies = () => async dispatch => {
 }
 
 export const fetchNannyById = nannyId => async dispatch => {
-  dispatch({ type: 'IS_FETCHING_NANNY' })
+  dispatch({ type: 'REQUEST_DATA', resource: 'nanny' })
   const res = await rpnAxios.get(`/nannies/${nannyId}`)
+  dispatch({ type: 'REQUEST_DATA_COMPLETE', resource: 'nanny' })
   dispatch({
     type: 'FETCH_NANNY_BY_ID',
     nanny: res.data,

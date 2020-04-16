@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
+import { toast } from 'react-toastify'
 
 import RpnModal from 'components/shared/Modal'
+import ApiErrors from 'components/forms/ApiErrors'
 
 import { createBooking, getBookings } from 'actions'
 
@@ -17,6 +20,7 @@ class BookingReserve extends Component {
     this.bookedDates = []
 
     this.state = {
+      errors: [],
       proposedBooking: {
         numKids: '',
         startAt: null,
@@ -27,7 +31,6 @@ class BookingReserve extends Component {
 
   async componentDidMount() {
     const { nanny } = this.props
-    debugger
     this.bookedDates = await getBookings(nanny._id)
   }
 
@@ -76,14 +79,26 @@ class BookingReserve extends Component {
     })
   }
 
+  resetData = () => {
+    this.dateRef.current.value = ''
+    this.setState({
+      errors: [],
+      proposedBooking: { numKids: '', startAt: null, endAt: null },
+    })
+  }
+
   reserveNanny = closeCallback => {
     createBooking(this.state.proposedBooking)
       .then(newBooking => {
-        alert('Success!')
+        this.bookedDates.push(newBooking)
+        this.resetData()
+        toast.success('Booking created!', {
+          autoClose: 3000,
+        })
         closeCallback()
       })
-      .catch(error => {
-        alert('Error!')
+      .catch(errors => {
+        this.setState({ errors })
       })
   }
 
@@ -112,8 +127,9 @@ class BookingReserve extends Component {
   }
 
   render() {
-    const { nanny } = this.props
+    const { nanny, isAuth } = this.props
     const {
+      errors,
       proposedBooking: { hours, numKids, price },
     } = this.state
 
@@ -124,52 +140,67 @@ class BookingReserve extends Component {
           <span className="booking-per-night">per hour</span>
         </h3>
         <hr></hr>
-        <div className="form-group">
-          <label htmlFor="dates">Dates</label>
-          <DateRangePicker
-            onApply={this.handleApply}
-            opens="left"
-            containerStyles={{ display: 'block' }}
-            isInvalidDate={this.checkInvalidDates}
+        {!isAuth && (
+          <Link
+            to={{ pathname: '/login' }}
+            className="btn btn-rpn-main btn-block"
           >
-            <input
-              ref={this.dateRef}
-              id="dates"
-              type="text"
-              className="form-control"
-            />
-          </DateRangePicker>
-        </div>
-        <div className="form-group">
-          <label htmlFor="numKids"># of Children</label>
-          <input
-            onChange={this.handleNumKidsChange}
-            value={numKids}
-            type="number"
-            className="form-control"
-            id="numKids"
-            aria-describedby="numKids"
-          />
-        </div>
-        <RpnModal
-          onSubmit={this.reserveNanny}
-          title="Confirm Info"
-          subtitle={this.formattedDate}
-          openBtn={
-            <button
-              onClick={this.calcData}
-              disabled={!this.isBookingValid}
-              className="btn btn-rpn-main btn-block"
+            Log in to Book this Nanny
+          </Link>
+        )}
+        {isAuth && (
+          <>
+            <div className="form-group">
+              <label htmlFor="dates">Dates</label>
+              <DateRangePicker
+                onApply={this.handleApply}
+                opens="left"
+                containerStyles={{ display: 'block' }}
+                isInvalidDate={this.checkInvalidDates}
+              >
+                <input
+                  ref={this.dateRef}
+                  id="dates"
+                  type="text"
+                  className="form-control"
+                />
+              </DateRangePicker>
+            </div>
+            <div className="form-group">
+              <label htmlFor="numKids"># of Children</label>
+              <input
+                onChange={this.handleNumKidsChange}
+                value={numKids}
+                type="number"
+                className="form-control"
+                id="numKids"
+                aria-describedby="numKids"
+              />
+            </div>
+            <RpnModal
+              onSubmit={this.reserveNanny}
+              title="Confirm Info"
+              subtitle={this.formattedDate}
+              openBtn={
+                <button
+                  onClick={this.calcData}
+                  disabled={!this.isBookingValid}
+                  className="btn btn-rpn-main btn-block"
+                >
+                  Confirm Booking Data
+                </button>
+              }
             >
-              Confirm Booking Data
-            </button>
-          }
-        >
-          <p>Hours: {hours}</p>
-          <p>Hourly Rate: ${nanny.hourlyRate}</p>
-          <p># of Children: {numKids}</p>
-          <p>Price: {price}</p>
-        </RpnModal>
+              <div className="mb-2">
+                <p>Hours: {hours}</p>
+                <p>Hourly Rate: ${nanny.hourlyRate}</p>
+                <p># of Children: {numKids}</p>
+                <p>Price: {price}</p>
+              </div>
+              <ApiErrors errors={errors} />
+            </RpnModal>
+          </>
+        )}
 
         <hr></hr>
         <p className="booking-note-title">

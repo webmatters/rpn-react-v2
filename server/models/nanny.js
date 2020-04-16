@@ -5,12 +5,14 @@ const nannySchema = new Schema({
   name: {
     type: String,
     required: true,
+    lowercase: true,
     minlength: [3, 'Must be at least 3 characters'],
     maxlength: [128, 'May not exceed 128 characters'],
   },
   city: {
     type: String,
     required: true,
+    lowercase: true,
     minlength: [3, 'Must be at least 3 characters'],
     maxlength: [128, 'Maximum number of characters is 128'],
   },

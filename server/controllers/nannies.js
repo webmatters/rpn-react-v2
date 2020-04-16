@@ -1,12 +1,16 @@
 const Nanny = require('../models/nanny')
 
-exports.getNannies = (req, res) => {
-  Nanny.find({}, (error, foundNannies) => {
-    if (error) {
-      return res.mongoError(error)
-    }
-    return res.json(foundNannies)
-  })
+exports.getNannies = async (req, res) => {
+  const { city } = req.query
+
+  const query = city ? { city: city.toLowerCase() } : {}
+
+  try {
+    const rentals = await Nanny.find(query)
+    return res.json(rentals)
+  } catch (error) {
+    return res.mongoError(error)
+  }
 }
 
 exports.getNannyById = (req, res) => {
@@ -39,7 +43,7 @@ exports.isUserNanny = (req, res, next) => {
   const user = res.locals.user
 
   Nanny.findById(nanny)
-    .populate('owner')
+    .populate('owner', '-password')
     .exec((error, foundNanny) => {
       if (error) {
         return res.mongoError(error)

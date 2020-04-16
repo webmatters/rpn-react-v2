@@ -26,7 +26,7 @@ class NannyDetail extends Component {
   }
 
   render() {
-    const { nanny, isFetching } = this.props
+    const { nanny, isFetching, isAuth } = this.props
 
     if (isFetching || !nanny._id) {
       return null
@@ -51,7 +51,7 @@ class NannyDetail extends Component {
               <NannyInfo nanny={nanny} />
             </div>
             <div className="col-md-4">
-              <BookingReserve nanny={nanny} />
+              <BookingReserve nanny={nanny} isAuth={isAuth} />
             </div>
           </div>
         </div>
@@ -60,9 +60,10 @@ class NannyDetail extends Component {
   }
 }
 
-const mapStateToProps = ({ nanny }) => ({
+const mapStateToProps = ({ nanny, auth: { isAuth } }) => ({
   nanny: nanny.item,
   isFetching: nanny.isFetching,
+  isAuth,
 })
 
 const NannyDetailWithRouter = withRouter(NannyDetail)

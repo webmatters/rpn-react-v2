@@ -28,8 +28,8 @@ export class NannyHome extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { nannies: state.nannies }
+const mapStateToProps = ({ nannies }) => {
+  return { nannies: nannies.items }
 }
 
 export default connect(mapStateToProps)(NannyHome)
