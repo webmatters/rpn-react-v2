@@ -59,6 +59,15 @@ const Header = ({ isAuth, firstName, logout }) => {
                   <Link className="dropdown-item" to="/nannies/new">
                     Create Nanny
                   </Link>
+                  <Link className="dropdown-item" to="/nannies/manage">
+                    Manage Nannies
+                  </Link>
+                  <Link className="dropdown-item" to="/bookings/manage">
+                    Manage Bookings
+                  </Link>
+                  <Link className="dropdown-item" to="/bookings/received">
+                    Received Bookings
+                  </Link>
                 </div>
               </li>
               <li className="nav-item">

@@ -1,6 +1,7 @@
 const moment = require('moment')
 
 const Booking = require('../models/booking')
+const Nanny = require('../models/nanny')
 
 exports.getBookings = async (req, res) => {
   const { nanny } = req.query
@@ -9,6 +10,64 @@ exports.getBookings = async (req, res) => {
   try {
     const bookings = await query.select('startAt endAt -_id').exec()
     return res.json(bookings)
+  } catch (error) {
+    return res.mongoError(error)
+  }
+}
+
+exports.getReceivedBookings = async (req, res) => {
+  const { user } = res.locals
+
+  try {
+    const nannies = await Nanny.find({ owner: user }, '_id')
+    const nannyIds = nannies.map(nanny => nanny.id)
+    const bookings = await Booking.find({ nanny: { $in: nannyIds } })
+      .populate('user', '-password')
+      .populate('nanny')
+    return res.json(bookings)
+  } catch (error) {
+    return res.mongoError(error)
+  }
+}
+
+exports.getUserBookings = async (req, res) => {
+  const { user } = res.locals
+
+  try {
+    const bookings = await Booking.find({ user })
+      .populate('user', '-password')
+      .populate('nanny')
+
+    return res.json(bookings)
+  } catch (error) {
+    return res.mongoError(error)
+  }
+}
+
+exports.deleteBooking = async (req, res) => {
+  const DAYS_THRESHOLD = 1
+  const { bookingId } = req.params
+  const { user } = res.locals
+  try {
+    const booking = await Booking.findById(bookingId).populate('user')
+
+    if (user.id !== booking.user.id) {
+      return res.sendApiError({
+        title: 'Invalid User',
+        detail: 'You must be the owner of this booking to delete it.',
+      })
+    }
+
+    if (moment(booking.startAt).diff(moment(), 'days') > DAYS_THRESHOLD) {
+      await booking.remove()
+      return res.json({ id: bookingId })
+    } else {
+      return res.sendApiError({
+        title: 'Invalid Booking',
+        detail:
+          'You cannot delete bookings that are within 1 day of the start date.',
+      })
+    }
   } catch (error) {
     return res.mongoError(error)
   }

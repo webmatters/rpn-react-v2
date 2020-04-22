@@ -12,6 +12,20 @@ export const fetchNannies = location => async dispatch => {
   })
 }
 
+export const fetchUserNannies = () => dispatch => {
+  dispatch({ type: 'REQUEST_DATA', resource: 'manage-nannies' })
+  return rpnAxios
+    .get('/nannies/me')
+    .then(res => res.data)
+    .then(nannies => {
+      dispatch({
+        type: 'REQUEST_DATA_COMPLETE',
+        data: nannies,
+        resource: 'manage-nannies',
+      })
+    })
+}
+
 export const fetchNannyById = nannyId => async dispatch => {
   dispatch({ type: 'REQUEST_DATA', resource: 'nanny' })
   const res = await rpnAxios.get(`/nannies/${nannyId}`)

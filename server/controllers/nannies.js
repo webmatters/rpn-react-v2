@@ -1,4 +1,7 @@
+const moment = require('moment')
+
 const Nanny = require('../models/nanny')
+const Booking = require('../models/booking')
 
 exports.getNannies = async (req, res) => {
   const { city } = req.query
@@ -13,6 +16,17 @@ exports.getNannies = async (req, res) => {
   }
 }
 
+exports.getUserNannies = async (req, res) => {
+  const { user } = res.locals
+
+  try {
+    const nannies = await Nanny.find({ owner: user })
+    return res.json(nannies)
+  } catch (error) {
+    return res.mongoError(error)
+  }
+}
+
 exports.getNannyById = (req, res) => {
   const { id } = req.params
 
@@ -22,6 +36,38 @@ exports.getNannyById = (req, res) => {
     }
     return res.json(foundNanny)
   })
+}
+
+exports.deleteNanny = async (req, res) => {
+  const { nannyId } = req.params
+  const { user } = res.locals
+
+  try {
+    const nanny = await Nanny.findById(nannyId).populate('owner')
+    const bookings = await Booking.find({ nanny })
+
+    const hasFutureBookings = bookings.some(
+      booking => moment(booking.startAt).diff(moment(), 'days') > 0
+    )
+
+    if (user.id !== nanny.owner.id) {
+      return res.sendApiError({
+        title: 'Invalid User',
+        detail: 'You must be the owner of this Nanny to delete it.',
+      })
+    }
+
+    if (bookings && bookings.length > 0 && hasFutureBookings) {
+      return res.sendApiError({
+        title: 'Active Bookings',
+        detail: 'Cannot delete nanny with active bookings',
+      })
+    }
+    await nanny.remove()
+    return res.json({ id: nannyId })
+  } catch (error) {
+    return res.mongoError(error)
+  }
 }
 
 exports.createNanny = (req, res) => {
